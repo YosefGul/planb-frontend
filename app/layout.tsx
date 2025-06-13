@@ -25,11 +25,11 @@ export default function RootLayout({
       <body
         className={`${poppins.variable} antialiased font-poppins overflow-x-hidden`}
       >
-       <div className="container mx-auto py-12 lg:px-0 px-4">
+        <div className="container mx-auto lg:pt-12 pt-4 pb-0  lg:px-4 px-4">
           <Header />
           {children}
-          <Footer />  
-       </div>
+          <Footer />
+        </div>
       </body>
     </html>
   );
