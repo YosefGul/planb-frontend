@@ -143,7 +143,7 @@ export default function WorkSmartClient({ teamMembers }: WorkSmartClientProps) {
 										)}
 									</div>
 								</CardContent>
-								<div className="size-23 bg-[#FF314A] rounded-full flex items-center justify-center">
+								<div className="size-23 bg-[#FF314A] rounded-full flex items-center justify-center overflow-hidden">
 									{member.profilePhoto ? (
 										<Image
 											src={member.profilePhoto}

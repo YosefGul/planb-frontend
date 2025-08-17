@@ -86,7 +86,7 @@ export default function ServiceCardsClient({ services }: Props) {
 								style={getAnimationDelay(index, 100)}
 							>
 								<CardHeader className="pb-4">
-									<div className="w-16 h-16 bg-red-500 rounded-full flex items-center overflow-hidden justify-center mx-auto mb-4">
+									<div className="w-16 h-16 rounded-md flex items-center justify-center mx-auto mb-4 overflow-hidden">
 										{renderIcon(service.icon, service.name)}
 									</div>
 									<CardTitle className="text-red-500 font-bold text-lg uppercase">

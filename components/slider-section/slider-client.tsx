@@ -222,7 +222,7 @@ export default function SliderClient({ sliders }: SliderClientProps) {
 						</div>
 						<div>
 							<p
-								className={`text-sm mt-4 sm:mt-6 lg:mt-4 xl:mt-0 sm:text-base md:text-lg lg:text-xl text-gray-800 dark:text-gray-300 leading-relaxed animate-slide-in-right animation-delay-200`}
+								className={`text-sm mt-4 sm:mt-6 lg:mt-4 xl:mt-2 sm:text-base md:text-lg lg:text-xl text-gray-800 dark:text-gray-300 leading-relaxed animate-slide-in-right animation-delay-200`}
 							>
 								{currentSlider.description}
 							</p>
