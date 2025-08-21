@@ -10,7 +10,7 @@ const fallbackSliders: Slider[] = [
 		description:
 			"Special animation production work for the content of the web marketing. In the animation and production stages, we exceeded the standards set by our customer and received support from both artificial intelligence and Adobe programs.",
 		excerpt: "Web animation implementation for BKIW",
-		image: "/cat.png",
+		image: "/web-anim.png",
 		tags: [
 			{ id: 1, name: "Web marketing" },
 			{ id: 2, name: "2D Animation" },
@@ -23,7 +23,7 @@ const fallbackSliders: Slider[] = [
 		description:
 			"Advanced game development project showcasing our expertise in Unity and Unreal Engine. Features cutting-edge graphics and immersive gameplay mechanics.",
 		excerpt: "Game Development for Steam",
-		image: "/steam-banner.png",
+		image: "/steam-dev.jpg",
 		tags: [
 			{ id: 4, name: "Game Development" },
 			{ id: 5, name: "Unity" },

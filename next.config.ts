@@ -12,6 +12,14 @@ const nextConfig: NextConfig = {
 				port: "8080",
 				pathname: "/uploads/**",
 			},
+			{
+				protocol: "https",
+				hostname: "via.placeholder.com",
+			},
+			{
+				protocol: "http",
+				hostname: "via.placeholder.com",
+			},
 		],
 	},
 	async rewrites() {

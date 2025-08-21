@@ -194,7 +194,7 @@ export default function PortfolioClient({ portfolios }: PortfolioClientProps) {
 												{getCoverImage(portfolio) ? (
 													<Image
 														src={getCoverImage(portfolio)!}
-														alt={portfolio.name}
+														alt={portfolio.name || "Portfolio Image"}
 														fill
 														className="object-cover"
 													/>
@@ -264,7 +264,7 @@ export default function PortfolioClient({ portfolios }: PortfolioClientProps) {
 										{getCoverImage(portfolio) ? (
 											<Image
 												src={getCoverImage(portfolio)!}
-												alt={portfolio.name}
+												alt={portfolio.name || "Portfolio Image"}
 												fill
 												className="object-cover"
 											/>

@@ -30,6 +30,7 @@ export default function SliderClient({ sliders }: SliderClientProps) {
 	const [touchEnd, setTouchEnd] = useState<number | null>(null);
 	const { isVisible, sectionRef } = useStaggeredAnimation(sliders.length, 100);
 	const autoSlideRef = useRef<NodeJS.Timeout | null>(null);
+	const contentRef = useRef<HTMLDivElement>(null);
 
 	// Auto slide with user interaction pause
 	useEffect(() => {
@@ -63,6 +64,13 @@ export default function SliderClient({ sliders }: SliderClientProps) {
 			return () => clearTimeout(timer);
 		}
 	}, [isUserInteracting]);
+
+	// Scroll to top when slide changes
+	useEffect(() => {
+		if (contentRef.current) {
+			contentRef.current.scrollTop = 0;
+		}
+	}, [currentSlide]);
 
 	const nextSlide = () => {
 		if (isAnimating) return;
@@ -201,34 +209,40 @@ export default function SliderClient({ sliders }: SliderClientProps) {
 					</div>
 				</div>
 
-				{/* Content Section - Fixed Height */}
-				<div className="flex-1 flex flex-col justify-center space-y-4 sm:space-y-5 md:space-y-6 h-[150px] sm:h-[200px] md:h-[300px] lg:h-[350px] xl:h-[400px] z-5 w-full lg:px-8 ">
+				{/* Content Section - Hidden Scrollbar */}
+				<div className="flex-1 flex flex-col justify-start space-y-4 sm:space-y-5 md:space-y-6 h-[400px] sm:h-[450px] md:h-[500px] lg:h-[550px] xl:h-[600px] z-5 w-full lg:px-8 overflow-hidden">
 					<div
+						ref={contentRef}
 						key={`content-${currentSlide}`}
-						className="flex flex-col justify-between h-full"
+						className="flex flex-col h-full overflow-y-auto scroll-smooth [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]"
+						style={{
+							scrollbarWidth: 'none',
+							msOverflowStyle: 'none'
+						}}
 					>
-						<div className="space-y-1">
+						<div className="space-y-1 mb-4">
 							<h3
-								className={`text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-bold text-black dark:text-white leading-tight animate-slide-in-right`}
+								className={`text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-bold text-black dark:text-white leading-tight animate-slide-in-right line-clamp-2`}
 							>
 								{currentSlider.name}
 							</h3>
 
 							<h5
-								className={`text-xs sm:text-sm md:text-base lg:text-lg xl:text-xl font-light text-gray-600 dark:text-gray-300 leading-tight animate-slide-in-right`}
+								className={`text-xs sm:text-sm md:text-base lg:text-lg xl:text-xl font-light text-gray-600 dark:text-gray-300 leading-tight animate-slide-in-right line-clamp-1`}
 							>
 								{currentSlider.excerpt}
 							</h5>
 						</div>
-						<div>
+						
+						<div className="flex-1">
 							<p
-								className={`text-sm mt-4 sm:mt-6 lg:mt-4 xl:mt-2 sm:text-base md:text-lg lg:text-xl text-gray-800 dark:text-gray-300 leading-relaxed animate-slide-in-right animation-delay-200`}
+								className={`text-sm sm:text-base md:text-lg lg:text-xl text-gray-800 dark:text-gray-300 leading-relaxed animate-slide-in-right animation-delay-200 mb-6`}
 							>
 								{currentSlider.description}
 							</p>
 
 							{/* Tags */}
-							<div className="flex flex-wrap gap-2 sm:gap-3 animate-slide-in-up animation-delay-400 mt-10 sm:mt-20 md:mt-25">
+							<div className="flex flex-wrap gap-2 sm:gap-3 animate-slide-in-up animation-delay-400 mb-6">
 								{currentSlider.tags && currentSlider.tags.length > 0 ? (
 									currentSlider.tags.map((tag, index) => (
 										<span
@@ -247,13 +261,15 @@ export default function SliderClient({ sliders }: SliderClientProps) {
 							</div>
 						</div>
 
-						<Link
-							href="/"
-							className={`text-[#FF314A] mt-7 hover:text-red-600 font-semibold text-sm sm:text-base md:text-lg lg:text-xl inline-flex items-center group animate-slide-in-right animation-delay-300`}
-						>
-							Learn More
-							<ArrowRight className="ml-1 sm:ml-2 h-4 w-4 sm:h-5 sm:w-5 transition-transform duration-300 group-hover:translate-x-1" />
-						</Link>
+						<div className="mt-auto pt-4">
+							<Link
+								href="/"
+								className={`text-[#FF314A] hover:text-red-600 font-semibold text-sm sm:text-base md:text-lg lg:text-xl inline-flex items-center group animate-slide-in-right animation-delay-300`}
+							>
+								Learn More
+								<ArrowRight className="ml-1 sm:ml-2 h-4 w-4 sm:h-5 sm:w-5 transition-transform duration-300 group-hover:translate-x-1" />
+							</Link>
+						</div>
 					</div>
 				</div>
 			</div>

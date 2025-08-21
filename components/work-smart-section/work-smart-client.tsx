@@ -115,7 +115,7 @@ export default function WorkSmartClient({ teamMembers }: WorkSmartClientProps) {
 							>
 								<CardContent className="p-0">
 									<p className="text-sm sm:text-base text-gray-600 dark:text-gray-300 leading-relaxed sm:mb-6">
-										"{member.quote}"
+										{member.quote}
 									</p>
 									<div className="flex items-center gap-3">
 										<div className="text-black dark:text-white flex items-center gap-2">
@@ -144,7 +144,7 @@ export default function WorkSmartClient({ teamMembers }: WorkSmartClientProps) {
 									</div>
 								</CardContent>
 								<div className="size-23 bg-[#FF314A] rounded-full flex items-center justify-center overflow-hidden">
-									{member.profilePhoto ? (
+									{member.profilePhoto && member.profilePhoto.trim() !== "" ? (
 										<Image
 											src={member.profilePhoto}
 											alt={member.name}
@@ -178,7 +178,7 @@ export default function WorkSmartClient({ teamMembers }: WorkSmartClientProps) {
 									>
 										<CardContent className="p-0">
 											<p className="text-sm sm:text-base text-gray-600 dark:text-gray-300 leading-relaxed sm:mb-6">
-												"{member.quote}"
+												{member.quote}
 											</p>
 											<div className="flex items-center gap-3">
 												<div className="text-black dark:text-white flex items-center gap-2">
@@ -207,7 +207,7 @@ export default function WorkSmartClient({ teamMembers }: WorkSmartClientProps) {
 											</div>
 										</CardContent>
 										<div className="size-16 bg-[#FF314A] rounded-full flex items-center justify-center">
-											{member.profilePhoto ? (
+											{member.profilePhoto && member.profilePhoto.trim() !== "" ? (
 												<Image
 													src={member.profilePhoto}
 													alt={member.name}
