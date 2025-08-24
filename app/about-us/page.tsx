@@ -136,16 +136,16 @@ const fallbackTeamMembers: TeamMemberType[] = [
 	},
 	{
 		id: 3,
-		name: "Sarah Chen",
-		title: "Creative Director",
+		name: "Ramazan",
+		title: "Assistant Producer",
 		quote:
 			"Every pixel tells a story, every animation brings life to our digital worlds.",
 		orderNumber: 3,
 	},
 	{
 		id: 4,
-		name: "Marcus Williams",
-		title: "Lead Game Designer",
+		name: "Eren",
+		title: "Game Developer",
 		quote:
 			"Great games are built on great mechanics and even greater player experiences.",
 		orderNumber: 4,
