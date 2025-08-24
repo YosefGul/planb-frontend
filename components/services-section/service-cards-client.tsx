@@ -2,7 +2,6 @@
 
 import React, { useEffect, useRef, useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import {
 	useStaggeredAnimation,
@@ -17,13 +16,17 @@ type Props = {
 
 // Icon değerinin geçerli bir URL olup olmadığını kontrol eden fonksiyon
 const isValidImageUrl = (url: string): boolean => {
+	// SVG dosyaları için kontrol
+	if (
+		url.startsWith("/") &&
+		(url.endsWith(".svg") || url.endsWith(".png") || url.endsWith(".jpg"))
+	) {
+		return true;
+	}
+
 	try {
 		new URL(url);
-		return (
-			url.startsWith("http://") ||
-			url.startsWith("https://") ||
-			url.startsWith("/")
-		);
+		return url.startsWith("http://") || url.startsWith("https://");
 	} catch {
 		return false;
 	}
@@ -52,20 +55,24 @@ export default function ServiceCardsClient({ services }: Props) {
 	const renderIcon = (icon: string, serviceName: string) => {
 		if (isValidImageUrl(icon)) {
 			return (
-				<Image
-					src={icon}
-					alt={serviceName}
-					width={64}
-					height={64}
-					className="w-full h-full object-cover"
-				/>
+				<div className="w-16 h-16 bg-[#FF314a] dark:bg-white rounded-full flex items-center justify-center">
+					<Image
+						src={icon}
+						alt={serviceName}
+						width={32}
+						height={32}
+						className="w-8 h-8 object-contain dark:invert"
+					/>
+				</div>
 			);
 		} else {
 			// Geçerli URL değilse, service name'in ilk harfini göster
 			return (
-				<span className="text-white text-2xl font-bold">
-					{serviceName.charAt(0)}
-				</span>
+				<div className="w-16 h-16 bg-[#FF314a] dark:bg-white rounded-full flex items-center justify-center">
+					<span className="text-white text-2xl font-bold">
+						{serviceName.charAt(0)}
+					</span>
+				</div>
 			);
 		}
 	};
@@ -86,7 +93,7 @@ export default function ServiceCardsClient({ services }: Props) {
 								style={getAnimationDelay(index, 100)}
 							>
 								<CardHeader className="pb-4">
-									<div className="w-16 h-16 rounded-md flex items-center justify-center mx-auto mb-4 overflow-hidden">
+									<div className="flex items-center justify-center mx-auto mb-4">
 										{renderIcon(service.icon, service.name)}
 									</div>
 									<CardTitle className="text-red-500 font-bold text-lg uppercase">
@@ -94,15 +101,9 @@ export default function ServiceCardsClient({ services }: Props) {
 									</CardTitle>
 								</CardHeader>
 								<CardContent className="pt-0">
-									<p className="text-muted-foreground text-sm leading-relaxed mb-4">
+									<p className="text-muted-foreground text-sm leading-relaxed">
 										{service.description}
 									</p>
-									<Button
-										variant="link"
-										className="text-red-500 p-0 h-auto font-normal underline"
-									>
-										Learn More...
-									</Button>
 								</CardContent>
 							</Card>
 						);
@@ -129,7 +130,7 @@ export default function ServiceCardsClient({ services }: Props) {
 										style={getAnimationDelay(index, 150)}
 									>
 										<CardHeader className="pb-4">
-											<div className="w-16 h-16 bg-red-500 rounded-full flex items-center justify-center mx-auto mb-4 overflow-hidden">
+											<div className="flex items-center justify-center mx-auto mb-4">
 												{renderIcon(service.icon, service.name)}
 											</div>
 											<CardTitle className="text-red-500 font-bold text-lg uppercase">
@@ -137,15 +138,9 @@ export default function ServiceCardsClient({ services }: Props) {
 											</CardTitle>
 										</CardHeader>
 										<CardContent className="pt-0">
-											<p className="text-muted-foreground text-sm leading-relaxed mb-4">
+											<p className="text-muted-foreground text-sm leading-relaxed">
 												{service.description}
 											</p>
-											<Button
-												variant="link"
-												className="text-red-500 p-0 h-auto font-normal underline"
-											>
-												Learn More...
-											</Button>
 										</CardContent>
 									</Card>
 								);

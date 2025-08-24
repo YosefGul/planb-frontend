@@ -9,21 +9,21 @@ const fallbackServices: Service[] = [
 		name: "GAME STUDIO",
 		description:
 			"We produce entertaining games for PC, game consoles and mobile devices with expert game designer and implementer teams.",
-		icon: "GameStudio",
+		icon: "/gamepad.svg",
 	},
 	{
 		id: 2,
 		name: "ANIMATION",
 		description:
 			"We produce web optimized animated content, 3D space and AR animations. At the same time, we realize more realistic shots with Motion Capture technology.",
-		icon: "Animation",
+		icon: "/anim-service-icon.svg",
 	},
 	{
 		id: 3,
 		name: "MARKETING",
 		description:
 			"In addition to game, animation and advertising services, we provide consultancy on your marketing processes with industry experts and produce road maps for you.",
-		icon: "Marketing",
+		icon: "/marketing-service-icon.svg",
 	},
 ];
 
@@ -36,7 +36,6 @@ async function getServicesData(): Promise<Service[]> {
 			? data.content
 			: fallbackServices;
 	} catch (error) {
-		console.warn("Backend not available, using fallback data:", error);
 		return fallbackServices;
 	}
 }

@@ -1,349 +1,439 @@
+import { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
+import localFont from "next/font/local";
 import {
-  Gamepad2,
-  Users,
-  Calendar,
-  Target,
-  Mail,
-  MapPin,
-  Phone,
+	Gamepad2,
+	Users,
+	Calendar,
+	Target,
+	Mail,
+	MapPin,
+	Phone,
+	Linkedin,
+	ArrowRight,
 } from "lucide-react";
-import ComingSoonPage from "@/components/coming-soon";
+import { getServiceList } from "@/services/service-services";
+import { getTeamMemberList } from "@/services/team-member-services";
+import type { Service } from "@/types/service.types";
+import type { TeamMember as TeamMemberType } from "@/types/team-member-types";
 
-export default function AboutPage() {
-  return (
-    // <div className="my-20 min-h-screen overflow-hidden rounded-3xl bg-white">
-    //   {/* Hero Section */}
-    //   <section className="relative bg-gradient-to-r from-gray-900 to-gray-800 text-white">
-    //     <div className="absolute inset-0 opacity-20">
-    //       <div className="absolute left-20 top-20 h-32 w-32 rounded-full bg-purple-500 blur-3xl"></div>
-    //       <div className="absolute bottom-20 right-20 h-32 w-32 rounded-full bg-blue-500 blur-3xl"></div>
-    //       <div className="absolute left-1/2 top-1/2 h-64 w-64 -translate-x-1/2 -translate-y-1/2 transform rounded-full bg-red-500 blur-3xl"></div>
-    //     </div>
-    //     <div className="container relative z-10 mx-auto px-4 py-24">
-    //       <div className="mx-auto max-w-3xl text-center">
-    //         <h1 className="mb-6 text-5xl font-bold md:text-6xl">
-    //           About Our Studio
-    //         </h1>
-    //         <p className="mb-8 text-xl text-gray-300">
-    //           We create immersive gaming experiences that push the boundaries of
-    //           imagination
-    //         </p>
-    //       </div>
-    //     </div>
-    //     <div className="absolute bottom-0 left-0 right-0 h-16 bg-gradient-to-t from-white to-transparent"></div>
-    //   </section>
+const kanopiBrazil = localFont({
+	src: "../../public/fonts/KanopiBrazil-Regular.otf",
+	display: "swap",
+});
 
-    //   {/* Our Story Section */}
-    //   <section className="py-16 md:py-24">
-    //     <div className="container mx-auto px-4">
-    //       <div className="flex flex-col items-center gap-12 md:flex-row">
-    //         <div className="md:w-1/2">
-    //           <h2 className="mb-6 text-3xl font-bold text-gray-800 md:text-4xl">
-    //             Our Story
-    //           </h2>
-    //           <p className="mb-6 text-lg text-gray-600">
-    //             Founded in 2015, our game studio began with a small team of
-    //             passionate developers who shared a vision: to create games that
-    //             would leave a lasting impact on players around the world.
-    //           </p>
-    //           <p className="mb-6 text-lg text-gray-600">
-    //             What started as a small indie project in a garage has grown into
-    //             a vibrant studio with over 50 talented individuals, each
-    //             bringing their unique skills and perspectives to our creative
-    //             process.
-    //           </p>
-    //           <p className="text-lg text-gray-600">
-    //             Today, we're proud to have released multiple award-winning
-    //             titles across various platforms, while maintaining our core
-    //             values of creativity, player-focused design, and technical
-    //             excellence.
-    //           </p>
-    //         </div>
-    //         <div className="md:w-1/2">
-    //           <div className="relative overflow-hidden rounded-lg shadow-xl">
-    //             <Image
-    //               src="/placeholder.svg?height=600&width=800"
-    //               alt="Our studio office"
-    //               width={800}
-    //               height={600}
-    //               className="h-auto w-full"
-    //             />
-    //           </div>
-    //         </div>
-    //       </div>
-    //     </div>
-    //   </section>
+export const metadata: Metadata = {
+	title: "PlanB - About Us | Game Development & Animation Studio",
+	description:
+		"Learn about PlanB Studio - our team, services, and mission to create innovative game development and animation solutions.",
+};
 
-    //   {/* Stats Section */}
-    //   <section className="bg-gray-50 py-16">
-    //     <div className="container mx-auto px-4">
-    //       <div className="grid grid-cols-2 gap-8 md:grid-cols-4">
-    //         <div className="text-center">
-    //           <div className="mb-2 text-4xl font-bold text-purple-600">15+</div>
-    //           <div className="text-gray-600">Games Released</div>
-    //         </div>
-    //         <div className="text-center">
-    //           <div className="mb-2 text-4xl font-bold text-blue-600">50+</div>
-    //           <div className="text-gray-600">Team Members</div>
-    //         </div>
-    //         <div className="text-center">
-    //           <div className="mb-2 text-4xl font-bold text-red-600">12M+</div>
-    //           <div className="text-gray-600">Players Worldwide</div>
-    //         </div>
-    //         <div className="text-center">
-    //           <div className="mb-2 text-4xl font-bold text-green-600">8</div>
-    //           <div className="text-gray-600">Industry Awards</div>
-    //         </div>
-    //       </div>
-    //     </div>
-    //   </section>
+// Icon değerinin geçerli bir URL olup olmadığını kontrol eden fonksiyon
+const isValidImageUrl = (url: string): boolean => {
+	// SVG dosyaları için kontrol
+	if (
+		url.startsWith("/") &&
+		(url.endsWith(".svg") || url.endsWith(".png") || url.endsWith(".jpg"))
+	) {
+		return true;
+	}
 
-    //   {/* Our Values Section */}
-    //   <section className="py-16 md:py-24">
-    //     <div className="container mx-auto px-4">
-    //       <h2 className="mb-12 text-center text-3xl font-bold text-gray-800 md:text-4xl">
-    //         Our Values
-    //       </h2>
-    //       <div className="grid gap-8 md:grid-cols-3">
-    //         <div className="rounded-lg bg-white p-8 shadow-lg">
-    //           <div className="mb-6 flex h-16 w-16 items-center justify-center rounded-full bg-purple-100">
-    //             <Gamepad2 className="h-8 w-8 text-purple-600" />
-    //           </div>
-    //           <h3 className="mb-4 text-xl font-bold text-gray-800">
-    //             Player-First Approach
-    //           </h3>
-    //           <p className="text-gray-600">
-    //             We believe in creating games that players love. Every decision
-    //             we make is guided by how it will enhance the player experience.
-    //           </p>
-    //         </div>
-    //         <div className="rounded-lg bg-white p-8 shadow-lg">
-    //           <div className="mb-6 flex h-16 w-16 items-center justify-center rounded-full bg-blue-100">
-    //             <Target className="h-8 w-8 text-blue-600" />
-    //           </div>
-    //           <h3 className="mb-4 text-xl font-bold text-gray-800">
-    //             Innovation
-    //           </h3>
-    //           <p className="text-gray-600">
-    //             We're not afraid to take risks and explore new ideas. Innovation
-    //             is at the heart of everything we create.
-    //           </p>
-    //         </div>
-    //         <div className="rounded-lg bg-white p-8 shadow-lg">
-    //           <div className="mb-6 flex h-16 w-16 items-center justify-center rounded-full bg-red-100">
-    //             <Users className="h-8 w-8 text-red-600" />
-    //           </div>
-    //           <h3 className="mb-4 text-xl font-bold text-gray-800">
-    //             Diversity & Inclusion
-    //           </h3>
-    //           <p className="text-gray-600">
-    //             We celebrate diverse perspectives and create an inclusive
-    //             environment where everyone's voice matters.
-    //           </p>
-    //         </div>
-    //       </div>
-    //     </div>
-    //   </section>
+	try {
+		new URL(url);
+		return url.startsWith("http://") || url.startsWith("https://");
+	} catch {
+		return false;
+	}
+};
 
-    //   {/* Team Section */}
-    //   <section className="bg-gray-50 py-16">
-    //     <div className="container mx-auto px-4">
-    //       <h2 className="mb-12 text-center text-3xl font-bold text-gray-800 md:text-4xl">
-    //         Meet Our Team
-    //       </h2>
-    //       <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-4">
-    //         {[
-    //           {
-    //             name: "Alex Johnson",
-    //             role: "Creative Director",
-    //             image: "/placeholder.svg?height=300&width=300",
-    //           },
-    //           {
-    //             name: "Sarah Chen",
-    //             role: "Lead Game Designer",
-    //             image: "/placeholder.svg?height=300&width=300",
-    //           },
-    //           {
-    //             name: "Marcus Williams",
-    //             role: "Technical Director",
-    //             image: "/placeholder.svg?height=300&width=300",
-    //           },
-    //           {
-    //             name: "Priya Patel",
-    //             role: "Art Director",
-    //             image: "/placeholder.svg?height=300&width=300",
-    //           },
-    //         ].map((member, index) => (
-    //           <div
-    //             key={index}
-    //             className="overflow-hidden rounded-lg bg-white shadow-lg"
-    //           >
-    //             <div className="relative aspect-square">
-    //               <Image
-    //                 src={member.image || "/placeholder.svg"}
-    //                 alt={member.name}
-    //                 fill
-    //                 className="object-cover"
-    //               />
-    //             </div>
-    //             <div className="p-6">
-    //               <h3 className="mb-1 text-xl font-bold text-gray-800">
-    //                 {member.name}
-    //               </h3>
-    //               <p className="text-gray-600">{member.role}</p>
-    //             </div>
-    //           </div>
-    //         ))}
-    //       </div>
-    //       <div className="mt-12 text-center">
-    //         <Link
-    //           href="/team"
-    //           className="inline-flex items-center gap-2 rounded-full bg-gray-800 px-6 py-3 font-medium text-white transition-colors hover:bg-gray-700"
-    //         >
-    //           View Full Team
-    //         </Link>
-    //       </div>
-    //     </div>
-    //   </section>
+// Icon render fonksiyonu
+const renderServiceIcon = (icon: string, serviceName: string) => {
+	if (isValidImageUrl(icon)) {
+		return (
+			<div className="w-16 h-16 bg-[#FF314a] dark:bg-black rounded-full flex items-center justify-center">
+				<Image
+					src={icon}
+					alt={serviceName}
+					width={32}
+					height={32}
+					className="w-8 h-8 object-contain dark:invert"
+				/>
+			</div>
+		);
+	} else {
+		// Geçerli URL değilse, service name'in ilk harfini göster
+		return (
+			<div className="w-16 h-16 bg-[#FF314a] dark:bg-black rounded-full flex items-center justify-center">
+				<span className="text-white text-2xl font-bold">
+					{serviceName.charAt(0)}
+				</span>
+			</div>
+		);
+	}
+};
 
-    //   {/* Timeline Section */}
-    //   <section className="py-16 md:py-24">
-    //     <div className="container mx-auto px-4">
-    //       <h2 className="mb-12 text-center text-3xl font-bold text-gray-800 md:text-4xl">
-    //         Our Journey
-    //       </h2>
-    //       <div className="relative">
-    //         {/* Timeline line */}
-    //         <div className="absolute left-1/2 h-full w-1 -translate-x-1/2 transform bg-gray-200"></div>
+// Fallback data for services
+const fallbackServices: Service[] = [
+	{
+		id: 1,
+		icon: "🎮",
+		name: "Game Development",
+		description:
+			"Full-cycle game development from concept to launch across multiple platforms.",
+	},
+	{
+		id: 2,
+		icon: "🎬",
+		name: "2D Animation",
+		description:
+			"High-quality 2D animations and motion graphics for games and marketing.",
+	},
+	{
+		id: 3,
+		icon: "📱",
+		name: "Mobile Development",
+		description: "Native and cross-platform mobile game development solutions.",
+	},
+	{
+		id: 4,
+		icon: "🎨",
+		name: "UI/UX Design",
+		description:
+			"Intuitive and engaging user interface design for games and applications.",
+	},
+	{
+		id: 5,
+		icon: "📈",
+		name: "Marketing Solutions",
+		description:
+			"Comprehensive digital marketing strategies for game promotion.",
+	},
+	{
+		id: 6,
+		icon: "🌐",
+		name: "Web Development",
+		description: "Modern web applications and interactive experiences.",
+	},
+];
 
-    //         {/* Timeline items */}
-    //         <div className="space-y-12">
-    //           {[
-    //             {
-    //               year: "2015",
-    //               title: "Studio Founded",
-    //               description:
-    //                 "Our journey began with a small team and big dreams.",
-    //             },
-    //             {
-    //               year: "2017",
-    //               title: "First Game Release",
-    //               description: "Launched our debut title to critical acclaim.",
-    //             },
-    //             {
-    //               year: "2019",
-    //               title: "Studio Expansion",
-    //               description:
-    //                 "Moved to a larger office and doubled our team size.",
-    //             },
-    //             {
-    //               year: "2021",
-    //               title: "Award-Winning Release",
-    //               description:
-    //                 "Our flagship title won Game of the Year at multiple events.",
-    //             },
-    //             {
-    //               year: "2023",
-    //               title: "Global Reach",
-    //               description:
-    //                 "Expanded to new markets with localized content.",
-    //             },
-    //           ].map((item, index) => (
-    //             <div key={index} className="relative">
-    //               <div
-    //                 className={`flex items-center ${
-    //                   index % 2 === 0 ? "flex-row" : "flex-row-reverse"
-    //                 }`}
-    //               >
-    //                 <div
-    //                   className={`w-1/2 ${
-    //                     index % 2 === 0 ? "pr-12 text-right" : "pl-12"
-    //                   }`}
-    //                 >
-    //                   <div className="rounded-lg bg-white p-6 shadow-lg">
-    //                     <div className="mb-2 text-xl font-bold text-purple-600">
-    //                       {item.year}
-    //                     </div>
-    //                     <h3 className="mb-2 text-xl font-bold text-gray-800">
-    //                       {item.title}
-    //                     </h3>
-    //                     <p className="text-gray-600">{item.description}</p>
-    //                   </div>
-    //                 </div>
-    //                 <div className="absolute left-1/2 flex h-12 w-12 -translate-x-1/2 transform items-center justify-center rounded-full border-4 border-white bg-purple-600">
-    //                   <Calendar className="h-5 w-5 text-white" />
-    //                 </div>
-    //                 <div className="w-1/2"></div>
-    //               </div>
-    //             </div>
-    //           ))}
-    //         </div>
-    //       </div>
-    //     </div>
-    //   </section>
+// Fallback data for team members
+const fallbackTeamMembers: TeamMemberType[] = [
+	{
+		id: 1,
+		name: "Ahmet Eren",
+		title: "Co-Founder & CEO",
+		quote: "We make more creative productions in the freedom of spacelessness.",
+		orderNumber: 1,
+	},
+	{
+		id: 2,
+		name: "Yusuf",
+		title: "CTO & Lead Developer",
+		quote:
+			"We provide a faster and more secure working environment by working entirely on the cloud.",
+		orderNumber: 2,
+	},
+	{
+		id: 3,
+		name: "Sarah Chen",
+		title: "Creative Director",
+		quote:
+			"Every pixel tells a story, every animation brings life to our digital worlds.",
+		orderNumber: 3,
+	},
+	{
+		id: 4,
+		name: "Marcus Williams",
+		title: "Lead Game Designer",
+		quote:
+			"Great games are built on great mechanics and even greater player experiences.",
+		orderNumber: 4,
+	},
+];
 
-    //   {/* Contact Section */}
-    //   <section className="bg-gray-50 py-16">
-    //     <div className="container mx-auto px-4">
-    //       <h2 className="mb-12 text-center text-3xl font-bold text-gray-800 md:text-4xl">
-    //         Get In Touch
-    //       </h2>
-    //       <div className="mx-auto max-w-4xl">
-    //         <div className="grid gap-8 md:grid-cols-3">
-    //           <div className="rounded-lg bg-white p-6 text-center shadow-lg">
-    //             <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-blue-100">
-    //               <MapPin className="h-6 w-6 text-blue-600" />
-    //             </div>
-    //             <h3 className="mb-2 text-lg font-bold text-gray-800">
-    //               Visit Us
-    //             </h3>
-    //             <p className="text-gray-600">
-    //               123 Game Studio Street
-    //               <br />
-    //               San Francisco, CA 94107
-    //             </p>
-    //           </div>
-    //           <div className="rounded-lg bg-white p-6 text-center shadow-lg">
-    //             <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-green-100">
-    //               <Mail className="h-6 w-6 text-green-600" />
-    //             </div>
-    //             <h3 className="mb-2 text-lg font-bold text-gray-800">
-    //               Email Us
-    //             </h3>
-    //             <p className="text-gray-600">
-    //               info@gamestudio.com
-    //               <br />
-    //               careers@gamestudio.com
-    //             </p>
-    //           </div>
-    //           <div className="rounded-lg bg-white p-6 text-center shadow-lg">
-    //             <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-red-100">
-    //               <Phone className="h-6 w-6 text-red-600" />
-    //             </div>
-    //             <h3 className="mb-2 text-lg font-bold text-gray-800">
-    //               Call Us
-    //             </h3>
-    //             <p className="text-gray-600">
-    //               +1 (555) 123-4567
-    //               <br />
-    //               Mon-Fri, 9am-5pm PST
-    //             </p>
-    //           </div>
-    //         </div>
-    //         <div className="mt-12 text-center">
-    //           <Link
-    //             href="/contact"
-    //             className="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-purple-600 to-blue-600 px-8 py-4 font-medium text-white shadow-lg transition-all duration-300 hover:from-purple-700 hover:to-blue-700 hover:shadow-purple-500/25"
-    //           >
-    //             Contact Us
-    //           </Link>
-    //         </div>
-    //       </div>
-    //     </div>
-    //   </section>
-    // </div>
-    <ComingSoonPage />
-  );
+// Server-side data fetching
+async function getServicesData(): Promise<Service[]> {
+	try {
+		const data = await getServiceList("", 0, 20, "id,asc");
+		return data?.content && data.content.length > 0
+			? data.content
+			: fallbackServices;
+	} catch (error) {
+		return fallbackServices;
+	}
+}
+
+async function getTeamMembersData(): Promise<TeamMemberType[]> {
+	try {
+		const data = await getTeamMemberList(0, 20, "orderNumber,asc");
+		return data?.content && data.content.length > 0
+			? data.content
+			: fallbackTeamMembers;
+	} catch (error) {
+		return fallbackTeamMembers;
+	}
+}
+
+export const revalidate = 600; // 10 minutes
+
+export default async function AboutPage() {
+	const services = await getServicesData();
+	const teamMembers = await getTeamMembersData();
+
+	return (
+		<section className="my-20">
+			<div className="container mx-auto px-4">
+				{/* Hero Section */}
+				<div className="text-center mb-16">
+					<h1
+						className={`${kanopiBrazil.className} text-4xl md:text-6xl font-bold text-[#FF314a] mb-6`}
+					>
+						ABOUT US
+					</h1>
+					<p className="text-xl text-gray-600 dark:text-gray-300 max-w-4xl mx-auto leading-relaxed">
+						PlanB Studio is a dynamic game development and animation studio
+						dedicated to creating innovative digital experiences. Our team of
+						passionate professionals works remotely across the globe, bringing
+						diverse perspectives and cutting-edge technology to every project.
+					</p>
+				</div>
+
+				{/* Stats Section */}
+				<div className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-20">
+					<div className="text-center">
+						<div className="text-3xl md:text-4xl font-bold text-[#FF314a] mb-2">
+							{services.length}+
+						</div>
+						<div className="text-gray-600 dark:text-gray-300 text-sm md:text-base">
+							Services
+						</div>
+					</div>
+					<div className="text-center">
+						<div className="text-3xl md:text-4xl font-bold text-[#FF314a] mb-2">
+							{teamMembers.length}+
+						</div>
+						<div className="text-gray-600 dark:text-gray-300 text-sm md:text-base">
+							Team Members
+						</div>
+					</div>
+					<div className="text-center">
+						<div className="text-3xl md:text-4xl font-bold text-[#FF314a] mb-2">
+							50+
+						</div>
+						<div className="text-gray-600 dark:text-gray-300 text-sm md:text-base">
+							Projects Completed
+						</div>
+					</div>
+					<div className="text-center">
+						<div className="text-3xl md:text-4xl font-bold text-[#FF314a] mb-2">
+							5+
+						</div>
+						<div className="text-gray-600 dark:text-gray-300 text-sm md:text-base">
+							Years Experience
+						</div>
+					</div>
+				</div>
+
+				{/* Our Story Section */}
+				<div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center mb-20">
+					<div className="space-y-6">
+						<h2
+							className={`${kanopiBrazil.className} text-3xl md:text-4xl font-bold text-[#FF314a] mb-6`}
+						>
+							OUR STORY
+						</h2>
+						<div className="space-y-4 text-gray-600 dark:text-gray-300 text-lg leading-relaxed">
+							<p>
+								Founded with a vision to revolutionize digital entertainment,
+								PlanB Studio emerged from the belief that great games and
+								animations can be created anywhere, by anyone, with the right
+								tools and passion.
+							</p>
+							<p>
+								We pioneered the remote-first approach in game development,
+								building a global team that collaborates seamlessly across time
+								zones and cultures. This unique structure allows us to tap into
+								diverse talent pools and bring fresh perspectives to every
+								project.
+							</p>
+							<p>
+								Today, we're proud to have delivered innovative solutions for
+								clients worldwide, maintaining our commitment to quality,
+								creativity, and technological excellence.
+							</p>
+						</div>
+					</div>
+					<div className="relative">
+						<div className="bg-gradient-to-br from-[#FF314a]/10 to-[#FF314a]/5 rounded-2xl p-8 border border-[#FF314a]/20">
+							<div className="grid grid-cols-2 gap-6">
+								<div className="text-center">
+									<div className="w-16 h-16 bg-[#FF314a] rounded-full flex items-center justify-center mx-auto mb-4">
+										<Gamepad2 className="w-8 h-8 text-white" />
+									</div>
+									<h3 className="font-semibold text-gray-900 dark:text-white mb-2">
+										Innovation
+									</h3>
+									<p className="text-sm text-gray-600 dark:text-gray-300">
+										Pushing boundaries with cutting-edge technology
+									</p>
+								</div>
+								<div className="text-center">
+									<div className="w-16 h-16 bg-[#FF314a] rounded-full flex items-center justify-center mx-auto mb-4">
+										<Users className="w-8 h-8 text-white" />
+									</div>
+									<h3 className="font-semibold text-gray-900 dark:text-white mb-2">
+										Collaboration
+									</h3>
+									<p className="text-sm text-gray-600 dark:text-gray-300">
+										Global team working together seamlessly
+									</p>
+								</div>
+								<div className="text-center">
+									<div className="w-16 h-16 bg-[#FF314a] rounded-full flex items-center justify-center mx-auto mb-4">
+										<Target className="w-8 h-8 text-white" />
+									</div>
+									<h3 className="font-semibold text-gray-900 dark:text-white mb-2">
+										Excellence
+									</h3>
+									<p className="text-sm text-gray-600 dark:text-gray-300">
+										Delivering quality in every project
+									</p>
+								</div>
+								<div className="text-center">
+									<div className="w-16 h-16 bg-[#FF314a] rounded-full flex items-center justify-center mx-auto mb-4">
+										<Calendar className="w-8 h-8 text-white" />
+									</div>
+									<h3 className="font-semibold text-gray-900 dark:text-white mb-2">
+										Reliability
+									</h3>
+									<p className="text-sm text-gray-600 dark:text-gray-300">
+										Meeting deadlines with consistent quality
+									</p>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				{/* Services Section */}
+				<div className="mb-20">
+					<div className="text-center mb-12">
+						<h2
+							className={`${kanopiBrazil.className} text-3xl md:text-4xl font-bold text-[#FF314a] mb-4`}
+						>
+							OUR SERVICES
+						</h2>
+						<p className="text-lg text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
+							Comprehensive solutions for game development, animation, and
+							digital marketing
+						</p>
+					</div>
+
+					<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+						{services.map((service) => (
+							<div
+								key={service.id}
+								className="bg-white flex flex-col justify-center items-center text-center dark:bg-gray-900 rounded-xl p-6 border border-gray-200 dark:border-gray-700 hover:shadow-lg transition-all duration-300 hover:scale-105"
+							>
+								<div className="flex items-center justify-center mb-4">
+									{renderServiceIcon(service.icon, service.name)}
+								</div>
+								<h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-3">
+									{service.name}
+								</h3>
+								<p className="text-gray-600 dark:text-gray-300 leading-relaxed">
+									{service.description}
+								</p>
+							</div>
+						))}
+					</div>
+				</div>
+
+				{/* Team Section */}
+				<div className="mb-20">
+					<div className="text-center mb-12">
+						<h2
+							className={`${kanopiBrazil.className} text-3xl md:text-4xl font-bold text-[#FF314a] mb-4`}
+						>
+							MEET OUR TEAM
+						</h2>
+						<p className="text-lg text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
+							Passionate professionals working together to create amazing
+							digital experiences
+						</p>
+					</div>
+
+					<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+						{teamMembers.map((member) => (
+							<div
+								key={member.id}
+								className="bg-white dark:bg-gray-900 rounded-xl p-6 border border-gray-200 dark:border-gray-700 hover:shadow-lg transition-all duration-300 hover:scale-105"
+							>
+								<div className="flex items-center justify-between mb-4">
+									<div className="w-16 h-16 bg-[#FF314a] rounded-full flex items-center justify-center overflow-hidden">
+										{member.profilePhoto &&
+										member.profilePhoto.trim() !== "" ? (
+											<Image
+												src={member.profilePhoto}
+												alt={member.name}
+												width={64}
+												height={64}
+												className="w-full h-full object-cover"
+											/>
+										) : (
+											<span className="text-white font-bold text-xl">
+												{member.name.charAt(0).toUpperCase()}
+											</span>
+										)}
+									</div>
+									{member.linkedinUrl && (
+										<Link
+											href={member.linkedinUrl}
+											target="_blank"
+											rel="noopener noreferrer"
+											className="w-8 h-8 bg-[#FF314a] rounded-full flex items-center justify-center hover:bg-red-600 transition-colors"
+										>
+											<Linkedin className="w-4 h-4 text-white" />
+										</Link>
+									)}
+								</div>
+								<h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-1">
+									{member.name}
+								</h3>
+								<p className="text-[#FF314a] font-medium mb-3">
+									{member.title}
+								</p>
+								<p className="text-gray-600 dark:text-gray-300 text-sm leading-relaxed">
+									"{member.quote}"
+								</p>
+							</div>
+						))}
+					</div>
+				</div>
+
+				{/* Contact CTA Section */}
+				<div className="bg-gradient-to-r from-[#FF314a]/10 to-[#FF314a]/5 rounded-2xl p-8 md:p-12 border border-[#FF314a]/20">
+					<div className="text-center">
+						<h2
+							className={`${kanopiBrazil.className} text-3xl md:text-4xl font-bold text-[#FF314a] mb-4`}
+						>
+							READY TO START YOUR PROJECT?
+						</h2>
+						<p className="text-lg text-gray-600 dark:text-gray-300 mb-8 max-w-2xl mx-auto">
+							Let's discuss how we can bring your vision to life with our
+							expertise in game development and animation.
+						</p>
+						<Link
+							href="/contact"
+							className="inline-flex items-center gap-2 bg-[#FF314a] hover:bg-red-600 text-white font-semibold px-8 py-4 rounded-full transition-all duration-300 hover:scale-105"
+						>
+							Get In Touch
+							<ArrowRight className="w-5 h-5" />
+						</Link>
+					</div>
+				</div>
+			</div>
+		</section>
+	);
 }

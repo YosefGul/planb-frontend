@@ -47,7 +47,7 @@ export default function Header() {
 					</Link>
 					{/* Desktop Navigation */}
 					<div className="hidden items-center gap-12 lg:flex">
-						<div>
+						{/* <div>
 							<DropdownMenu>
 								<DropdownMenuTrigger className="header-menu-trigger dark:text-white flex items-center gap-1 font-medium text-[#20202081] hover:text-black active:text-black data-[state=open]:text-black">
 									Games
@@ -64,8 +64,8 @@ export default function Header() {
 									<DropdownMenuItem>Subscription</DropdownMenuItem>
 								</DropdownMenuContent>
 							</DropdownMenu>
-						</div>
-						<div>
+						</div> */}
+						{/* <div>
 							<DropdownMenu>
 								<DropdownMenuTrigger className="header-menu-trigger dark:text-white flex items-center gap-1 font-medium text-[#20202081] hover:text-black active:text-black data-[state=open]:text-black">
 									Agency
@@ -82,7 +82,7 @@ export default function Header() {
 									<DropdownMenuItem>Subscription</DropdownMenuItem>
 								</DropdownMenuContent>
 							</DropdownMenu>
-						</div>
+						</div> */}
 
 						<div>
 							<Link href="/about-us" className="header-menu-trigger">
@@ -94,9 +94,9 @@ export default function Header() {
 
 				{/* Desktop Right Side */}
 				<div className="hidden items-center gap-12 lg:flex">
-					<Link href="/press-kits" className="header-menu-trigger">
+					{/* <Link href="/press-kits" className="header-menu-trigger">
 						PressKits
-					</Link>
+					</Link> */}
 					<Link href="/contact" className="header-menu-trigger">
 						Contact
 					</Link>
@@ -150,7 +150,7 @@ export default function Header() {
 
 					{/* Mobile Navigation */}
 					<div className="space-y-4">
-						<div>
+						{/* <div>
 							<DropdownMenu>
 								<DropdownMenuTrigger className="header-menu-trigger py-2 px-3 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors dark:text-white flex w-full items-center justify-start gap-1 font-medium text-[#20202081] hover:text-black active:text-black data-[state=open]:text-black">
 									Games
@@ -175,9 +175,9 @@ export default function Header() {
 									</DropdownMenuItem>
 								</DropdownMenuContent>
 							</DropdownMenu>
-						</div>
+						</div> */}
 
-						<div>
+						{/* <div>
 							<DropdownMenu>
 								<DropdownMenuTrigger className="header-menu-trigger py-2 px-3 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors dark:text-white flex w-full items-center justify-start gap-1 font-medium text-[#20202081] hover:text-black active:text-black data-[state=open]:text-black">
 									Agency
@@ -202,20 +202,20 @@ export default function Header() {
 									</DropdownMenuItem>
 								</DropdownMenuContent>
 							</DropdownMenu>
-						</div>
+						</div> */}
 
-						<Link
+						{/* <Link
 							href="/company"
 							className="header-menu-trigger block w-full text-left py-2 px-3 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
 						>
 							Company
-						</Link>
-						<Link
+						</Link> */}
+						{/* <Link
 							href="/press-kits"
 							className="header-menu-trigger block w-full text-left py-2 px-3 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
 						>
 							PressKits
-						</Link>
+						</Link> */}
 						<Link
 							href="/about-us"
 							className="header-menu-trigger block w-full text-left py-2 px-3 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
