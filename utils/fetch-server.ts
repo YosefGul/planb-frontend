@@ -3,82 +3,82 @@
 import { objectToFormData } from "./object-to-form-data";
 
 export const fetchServer = async <T, U>(
-	url: string,
-	options: Omit<RequestInit, "body"> & { body?: T } = {}
+  url: string,
+  options: Omit<RequestInit, "body"> & { body?: T } = {}
 ): Promise<U> => {
-	const headers = new Headers(options.headers);
-	const { body, ...rest } = options;
+  const headers = new Headers(options.headers);
+  const { body, ...rest } = options;
 
-	const locale = "en"; // Default locale since next-intl is not installed
+  const locale = "en"; // Default locale since next-intl is not installed
 
-	const requestOptions: RequestInit = rest;
+  const requestOptions: RequestInit = rest;
 
-	headers.set("Accept", "application/json");
-	headers.set("X-Client-Type", "web");
-	headers.set("X-Locale", locale);
-	headers.set(
-		"X-Client-Version",
-		process.env.NEXT_PUBLIC_APP_VERSION || "1.0.0"
-	);
-	headers.set("bypass-tunnel-reminder", "true");
+  headers.set("Accept", "application/json");
+  headers.set("X-Client-Type", "web");
+  headers.set("X-Locale", locale);
+  headers.set(
+    "X-Client-Version",
+    process.env.NEXT_PUBLIC_APP_VERSION || "1.0.0"
+  );
+  headers.set("bypass-tunnel-reminder", "true");
 
-	if (options?.method?.toUpperCase() === undefined) {
-		requestOptions.method = "GET";
-	}
+  if (options?.method?.toUpperCase() === undefined) {
+    requestOptions.method = "GET";
+  }
 
-	if (headers.get("Content-Type") === "multipart/form-data") {
-		headers.delete("Content-Type");
-		requestOptions.body = objectToFormData({ ...body });
-	} else if (!headers.get("Content-Type")) {
-		headers.set("Content-Type", "application/json");
-		if (body) {
-			if (requestOptions.method?.toUpperCase() === "GET") {
-				const [baseUrl, queryString] = url.split("?");
-				const existingParams = new URLSearchParams(queryString);
+  if (headers.get("Content-Type") === "multipart/form-data") {
+    headers.delete("Content-Type");
+    requestOptions.body = objectToFormData({ ...body });
+  } else if (!headers.get("Content-Type")) {
+    headers.set("Content-Type", "application/json");
+    if (body) {
+      if (requestOptions.method?.toUpperCase() === "GET") {
+        const [baseUrl, queryString] = url.split("?");
+        const existingParams = new URLSearchParams(queryString);
 
-				// new URLSearchParams expects an object, not a JSON string!
-				const newParams = new URLSearchParams();
+        // new URLSearchParams expects an object, not a JSON string!
+        const newParams = new URLSearchParams();
 
-				Object.entries(body as Record<string, unknown>).forEach(
-					([key, value]) => {
-						if (value !== undefined && value !== null) {
-							if (Array.isArray(value)) {
-								newParams.set(key, value.join(","));
-							} else {
-								newParams.set(key, String(value));
-							}
-						}
-					}
-				);
+        Object.entries(body as Record<string, unknown>).forEach(
+          ([key, value]) => {
+            if (value !== undefined && value !== null) {
+              if (Array.isArray(value)) {
+                newParams.set(key, value.join(","));
+              } else {
+                newParams.set(key, String(value));
+              }
+            }
+          }
+        );
 
-				// Now copy existing params into newParams
-				existingParams.forEach((value, key) => {
-					newParams.set(key, value);
-				});
+        // Now copy existing params into newParams
+        existingParams.forEach((value, key) => {
+          newParams.set(key, value);
+        });
 
-				// Build final URL
-				url = `${baseUrl}?${newParams.toString()}`;
-			} else {
-				requestOptions.body = JSON.stringify(body);
-			}
-		}
-	}
+        // Build final URL
+        url = `${baseUrl}?${newParams.toString()}`;
+      } else {
+        requestOptions.body = JSON.stringify(body);
+      }
+    }
+  }
 
-	requestOptions.headers = headers;
+  requestOptions.headers = headers;
 
-	const apiBase =
-		process.env.NEXT_PUBLIC_API_URL || "http://localhost:8080/api/v1";
-	const requestUrl = `${apiBase}${url}`;
-	const response = await fetch(requestUrl, requestOptions);
+  const apiBase =
+    process.env.NEXT_PUBLIC_API_URL || "http://localhost:8080/api/v1";
+  const requestUrl = `${apiBase}${url}`;
+  const response = await fetch(requestUrl, requestOptions);
 
-	if (response.status < 200 || response.status >= 400) {
-		throw new Error("Failed to fetch data");
-	}
+  if (response.status < 200 || response.status >= 400) {
+    throw new Error("Failed to fetch data");
+  }
 
-	const contentType = response.headers.get("content-type");
-	if (contentType?.includes("application/json")) {
-		return response.json() as Promise<U>;
-	}
+  const contentType = response.headers.get("content-type");
+  if (contentType?.includes("application/json")) {
+    return response.json() as Promise<U>;
+  }
 
-	return response as unknown as Promise<U>;
+  return response as unknown as Promise<U>;
 };

@@ -160,8 +160,6 @@ async function getPortfoliosData(): Promise<Portfolio[]> {
   }
 }
 
-export const revalidate = 600; // 10 dakika
-
 export default async function Portfolio() {
   // Server-side'da veri çek
   const portfolios = await getPortfoliosData();

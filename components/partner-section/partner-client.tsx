@@ -157,24 +157,24 @@ export default function PartnerClient({ partners }: PartnerClientProps) {
                 const isAnimated = animatedItems.includes(index);
 
                 return (
-                                     <div
-                     key={partner.id}
-                     className={`group relative ${animationClasses.staggeredItem(
-                       isAnimated
-                     )}`}
-                     style={getAnimationDelay(index, 100)}
-                   >
-                     <Image
-                       src={partner.icon}
-                       alt={partner.name}
-                       width={size.width}
-                       height={size.height}
-                       className="object-contain w-auto h-auto filter grayscale hover:grayscale-0 transition-all duration-300 group-hover:brightness-110 dark:invert hover:scale-110"
-                       style={{ height: `${size.height}px` }}
-                     />
-                     {/* Hover effect overlay */}
-                     <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-lg" />
-                   </div>
+                  <div
+                    key={partner.id}
+                    className={`group relative ${animationClasses.staggeredItem(
+                      isAnimated
+                    )}`}
+                    style={getAnimationDelay(index, 100)}
+                  >
+                    <Image
+                      src={partner.icon}
+                      alt={partner.name}
+                      width={size.width}
+                      height={size.height}
+                      className="object-contain w-auto h-auto filter grayscale hover:grayscale-0 transition-all duration-300 group-hover:brightness-110 dark:invert hover:scale-110"
+                      style={{ height: `${size.height}px` }}
+                    />
+                    {/* Hover effect overlay */}
+                    <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-lg" />
+                  </div>
                 );
               })}
             </div>
@@ -186,21 +186,21 @@ export default function PartnerClient({ partners }: PartnerClientProps) {
                 const size = getLogoSize(partners.length, "desktop");
 
                 return (
-                                     <div
-                     key={`duplicate-${partner.id}`}
-                     className="group relative"
-                   >
-                     <Image
-                       src={partner.icon}
-                       alt={partner.name}
-                       width={size.width}
-                       height={size.height}
-                       className="object-contain w-auto h-auto filter grayscale hover:grayscale-0 transition-all duration-300 group-hover:brightness-110 dark:invert hover:scale-110"
-                       style={{ height: `${size.height}px` }}
-                     />
-                     {/* Hover effect overlay */}
-                     <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-lg" />
-                   </div>
+                  <div
+                    key={`duplicate-${partner.id}`}
+                    className="group relative"
+                  >
+                    <Image
+                      src={partner.icon}
+                      alt={partner.name}
+                      width={size.width}
+                      height={size.height}
+                      className="object-contain w-auto h-auto filter grayscale hover:grayscale-0 transition-all duration-300 group-hover:brightness-110 dark:invert hover:scale-110"
+                      style={{ height: `${size.height}px` }}
+                    />
+                    {/* Hover effect overlay */}
+                    <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-lg" />
+                  </div>
                 );
               })}
             </div>
@@ -219,24 +219,24 @@ export default function PartnerClient({ partners }: PartnerClientProps) {
                 const isAnimated = animatedItems.includes(index);
 
                 return (
-                                     <div
-                     key={`tablet-${partner.id}`}
-                     className={`group relative transition-all duration-700 ${
-                       isAnimated
-                         ? "opacity-100 translate-y-0"
-                         : "opacity-0 translate-y-8"
-                     }`}
-                     style={{ transitionDelay: `${index * 150}ms` }}
-                   >
-                     <Image
-                       src={partner.icon}
-                       alt={partner.name}
-                       width={size.width}
-                       height={size.height}
-                       className="object-contain w-auto h-auto filter grayscale hover:grayscale-0 transition-all duration-300 group-hover:brightness-110 dark:invert hover:scale-105"
-                       style={{ height: `${size.height}px` }}
-                     />
-                   </div>
+                  <div
+                    key={`tablet-${partner.id}`}
+                    className={`group relative transition-all duration-700 ${
+                      isAnimated
+                        ? "opacity-100 translate-y-0"
+                        : "opacity-0 translate-y-8"
+                    }`}
+                    style={{ transitionDelay: `${index * 150}ms` }}
+                  >
+                    <Image
+                      src={partner.icon}
+                      alt={partner.name}
+                      width={size.width}
+                      height={size.height}
+                      className="object-contain w-auto h-auto filter grayscale hover:grayscale-0 transition-all duration-300 group-hover:brightness-110 dark:invert hover:scale-105"
+                      style={{ height: `${size.height}px` }}
+                    />
+                  </div>
                 );
               })}
             </div>
@@ -248,19 +248,19 @@ export default function PartnerClient({ partners }: PartnerClientProps) {
                 const size = getLogoSize(partners.length, "tablet");
 
                 return (
-                                     <div
-                     key={`tablet-duplicate-${partner.id}`}
-                     className="group relative"
-                   >
-                     <Image
-                       src={partner.icon}
-                       alt={partner.name}
-                       width={size.width}
-                       height={size.height}
-                       className="object-contain w-auto h-auto filter grayscale hover:grayscale-0 transition-all duration-300 group-hover:brightness-110 dark:invert hover:scale-105"
-                       style={{ height: `${size.height}px` }}
-                     />
-                   </div>
+                  <div
+                    key={`tablet-duplicate-${partner.id}`}
+                    className="group relative"
+                  >
+                    <Image
+                      src={partner.icon}
+                      alt={partner.name}
+                      width={size.width}
+                      height={size.height}
+                      className="object-contain w-auto h-auto filter grayscale hover:grayscale-0 transition-all duration-300 group-hover:brightness-110 dark:invert hover:scale-105"
+                      style={{ height: `${size.height}px` }}
+                    />
+                  </div>
                 );
               })}
             </div>
@@ -279,24 +279,24 @@ export default function PartnerClient({ partners }: PartnerClientProps) {
                 const isAnimated = animatedItems.includes(index);
 
                 return (
-                                     <div
-                     key={`mobile-${partner.id}`}
-                     className={`group relative transition-all duration-700 ${
-                       isAnimated
-                         ? "opacity-100 translate-y-0"
-                         : "opacity-0 translate-y-8"
-                     }`}
-                     style={{ transitionDelay: `${index * 200}ms` }}
-                   >
-                     <Image
-                       src={partner.icon}
-                       alt={partner.name}
-                       width={size.width}
-                       height={size.height}
-                       className="object-contain w-auto h-auto filter grayscale hover:grayscale-0 transition-all duration-300 group-hover:brightness-110 dark:invert hover:scale-105"
-                       style={{ height: `${size.height}px` }}
-                     />
-                   </div>
+                  <div
+                    key={`mobile-${partner.id}`}
+                    className={`group relative transition-all duration-700 ${
+                      isAnimated
+                        ? "opacity-100 translate-y-0"
+                        : "opacity-0 translate-y-8"
+                    }`}
+                    style={{ transitionDelay: `${index * 200}ms` }}
+                  >
+                    <Image
+                      src={partner.icon}
+                      alt={partner.name}
+                      width={size.width}
+                      height={size.height}
+                      className="object-contain w-auto h-auto filter grayscale hover:grayscale-0 transition-all duration-300 group-hover:brightness-110 dark:invert hover:scale-105"
+                      style={{ height: `${size.height}px` }}
+                    />
+                  </div>
                 );
               })}
             </div>
@@ -317,7 +317,7 @@ export default function PartnerClient({ partners }: PartnerClientProps) {
                       alt={partner.name}
                       width={size.width}
                       height={size.height}
-                      className="object-contain w-auto h-auto filter grayscale hover:grayscale-0 transition-all duration-300 group-hover:brightness-110 dark:invert dark:hover:invert-0 hover:scale-105"
+                      className="object-contain w-auto h-auto filter grayscale hover:grayscale-0 transition-all duration-300 group-hover:brightness-110 dark:invert hover:scale-105"
                       style={{ height: `${size.height}px` }}
                     />
                   </div>
