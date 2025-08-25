@@ -3,127 +3,135 @@
 import { objectToFormData } from "./object-to-form-data";
 import { getAccessToken, setAccessToken } from "./token-manager";
 
+// Helper function to get API URL
+const getApiUrl = (): string => {
+  // @ts-ignore - NEXT_PUBLIC_ variables are available in browser
+  return process.env.NEXT_PUBLIC_API_URL || "http://localhost:8080/api/v1";
+};
+
 export const fetchClient = async <T, U>(
-	url: string,
-	options: Omit<RequestInit, "body"> & { body?: T } = {}
+  url: string,
+  options: Omit<RequestInit, "body"> & { body?: T } = {}
 ): Promise<U> => {
-	const headers = new Headers(options.headers);
-	const { body, ...rest } = options;
+  const headers = new Headers(options.headers);
+  const { body, ...rest } = options;
 
-	const requestOptions: RequestInit = rest;
-	const locale = window.location.pathname.split("/")[1];
+  const requestOptions: RequestInit = rest;
+  const locale = window.location.pathname.split("/")[1];
 
-	headers.set("Accept", "application/json");
-	headers.set("X-Client-Type", "web");
-	headers.set("X-Locale", locale);
-	const accessToken = getAccessToken();
-	if (accessToken) {
-		headers.set("Authorization", `Bearer ${accessToken}`);
-	}
-	const appVersion = process.env.NEXT_PUBLIC_APP_VERSION || "1.0.0";
-	headers.set("X-Client-Version", appVersion);
-	headers.set("bypass-tunnel-reminder", "true");
+  headers.set("Accept", "application/json");
+  headers.set("X-Client-Type", "web");
+  headers.set("X-Locale", locale);
+  const accessToken = getAccessToken();
+  if (accessToken) {
+    headers.set("Authorization", `Bearer ${accessToken}`);
+  }
+  const appVersion = process.env.NEXT_PUBLIC_APP_VERSION || "1.0.0";
+  headers.set("X-Client-Version", appVersion);
+  headers.set("bypass-tunnel-reminder", "true");
 
-	if (options?.method?.toUpperCase() === undefined) {
-		requestOptions.method = "GET";
-	}
+  if (options?.method?.toUpperCase() === undefined) {
+    requestOptions.method = "GET";
+  }
 
-	if (headers.get("Content-Type") === "multipart/form-data") {
-		headers.delete("Content-Type");
-		requestOptions.body = objectToFormData({ ...body });
-	} else if (!headers.get("Content-Type")) {
-		headers.set("Content-Type", "application/json");
-		if (body) {
-			if (requestOptions.method?.toUpperCase() === "GET") {
-				const [baseUrl, queryString] = url.split("?");
-				const existingParams = new URLSearchParams(queryString);
-				const newParams = new URLSearchParams();
+  if (headers.get("Content-Type") === "multipart/form-data") {
+    headers.delete("Content-Type");
+    requestOptions.body = objectToFormData({ ...body });
+  } else if (!headers.get("Content-Type")) {
+    headers.set("Content-Type", "application/json");
+    if (body) {
+      if (requestOptions.method?.toUpperCase() === "GET") {
+        const [baseUrl, queryString] = url.split("?");
+        const existingParams = new URLSearchParams(queryString);
+        const newParams = new URLSearchParams();
 
-				Object.entries(body as Record<string, unknown>).forEach(
-					([key, value]) => {
-						if (value !== undefined && value !== null) {
-							if (Array.isArray(value)) {
-								newParams.set(key, value.join(","));
-							} else {
-								newParams.set(key, String(value));
-							}
-						}
-					}
-				);
+        Object.entries(body as Record<string, unknown>).forEach(
+          ([key, value]) => {
+            if (value !== undefined && value !== null) {
+              if (Array.isArray(value)) {
+                newParams.set(key, value.join(","));
+              } else {
+                newParams.set(key, String(value));
+              }
+            }
+          }
+        );
 
-				existingParams.forEach((value, key) => {
-					newParams.set(key, value);
-				});
+        existingParams.forEach((value, key) => {
+          newParams.set(key, value);
+        });
 
-				url = `${baseUrl}?${newParams.toString()}`;
-			} else {
-				requestOptions.body = JSON.stringify(body);
-			}
-		}
-	}
+        url = `${baseUrl}?${newParams.toString()}`;
+      } else {
+        requestOptions.body = JSON.stringify(body);
+      }
+    }
+  }
 
-	requestOptions.headers = headers;
+  requestOptions.headers = headers;
 
-	const requestUrl = `/api/v1${url}`;
+  const apiBase = getApiUrl();
+  const requestUrl = `${apiBase}${url}`;
 
-	const response = await fetch(requestUrl, requestOptions);
+  const response = await fetch(requestUrl, requestOptions);
 
-	if (response.status < 200 || response.status >= 400) {
-		if (response.status === 401) {
-			const isRefreshed = await refreshTokens();
-			if (!isRefreshed) {
-				throw new Error("Failed to fetch data");
-			}
-			return fetchClient(url, options);
-		}
+  if (response.status < 200 || response.status >= 400) {
+    if (response.status === 401) {
+      const isRefreshed = await refreshTokens();
+      if (!isRefreshed) {
+        throw new Error("Failed to fetch data");
+      }
+      return fetchClient(url, options);
+    }
 
-		// Try to surface server-provided error message when available
-		try {
-			const errorContentType = response.headers.get("content-type");
-			if (errorContentType?.includes("application/json")) {
-				const errorBody = (await response.json()) as
-					| { message?: string }
-					| unknown;
-				const message = (errorBody as any)?.message;
-				throw new Error(
-					typeof message === "string" && message.length > 0
-						? message
-						: "Failed to fetch data"
-				);
-			}
-			const text = await response.text();
-			throw new Error(text || "Failed to fetch data");
-		} catch (_err) {
-			// If parsing fails for any reason, fall back to generic message
-			throw new Error("Failed to fetch data");
-		}
-	}
+    // Try to surface server-provided error message when available
+    try {
+      const errorContentType = response.headers.get("content-type");
+      if (errorContentType?.includes("application/json")) {
+        const errorBody = (await response.json()) as
+          | { message?: string }
+          | unknown;
+        const message = (errorBody as any)?.message;
+        throw new Error(
+          typeof message === "string" && message.length > 0
+            ? message
+            : "Failed to fetch data"
+        );
+      }
+      const text = await response.text();
+      throw new Error(text || "Failed to fetch data");
+    } catch (_err) {
+      // If parsing fails for any reason, fall back to generic message
+      throw new Error("Failed to fetch data");
+    }
+  }
 
-	const contentType = response.headers.get("content-type");
-	if (contentType?.includes("application/json")) {
-		return response.json() as Promise<U>;
-	}
+  const contentType = response.headers.get("content-type");
+  if (contentType?.includes("application/json")) {
+    return response.json() as Promise<U>;
+  }
 
-	return response as unknown as Promise<U>;
+  return response as unknown as Promise<U>;
 };
 
 export const refreshTokens = async (): Promise<boolean> => {
-	const tokensResponse = await fetch("/api/v1/auth/refresh", {
-		method: "POST",
-		headers: {
-			"Content-Type": "application/json",
-			"bypass-tunnel-reminder": "true",
-		},
-		credentials: "include",
-	});
+  const apiBase = getApiUrl();
+  const tokensResponse = await fetch(`${apiBase}/auth/refresh`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "bypass-tunnel-reminder": "true",
+    },
+    credentials: "include",
+  });
 
-	if (tokensResponse.status === 200) {
-		const tokens = await tokensResponse.json();
-		setAccessToken(tokens.accessToken);
-		return true;
-	}
+  if (tokensResponse.status === 200) {
+    const tokens = await tokensResponse.json();
+    setAccessToken(tokens.accessToken);
+    return true;
+  }
 
-	setAccessToken(null);
+  setAccessToken(null);
 
-	return false;
+  return false;
 };
