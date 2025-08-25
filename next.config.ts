@@ -25,6 +25,11 @@ const nextConfig: NextConfig = {
         hostname: "panel.planbanimation.com",
         pathname: "/uploads/**",
       },
+      {
+        protocol: "http",
+        hostname: "panel.planbanimation.com",
+        pathname: "/uploads/**",
+      },
     ],
   },
   async rewrites() {

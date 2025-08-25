@@ -11,7 +11,10 @@ export const fetchServer = async <T, U>(
 
   const locale = "en"; // Default locale since next-intl is not installed
 
-  const requestOptions: RequestInit = rest;
+  const requestOptions: RequestInit = {
+    cache: "no-store",
+    ...rest,
+  };
 
   headers.set("Accept", "application/json");
   headers.set("X-Client-Type", "web");
@@ -69,7 +72,11 @@ export const fetchServer = async <T, U>(
   const apiBase =
     process.env.NEXT_PUBLIC_API_URL || "http://localhost:8080/api/v1";
   const requestUrl = `${apiBase}${url}`;
-  const response = await fetch(requestUrl, requestOptions);
+  const response = await fetch(requestUrl, {
+    ...requestOptions,
+    // Hint Next.js fetch cache to not cache this request
+    next: { revalidate: 0 },
+  });
 
   if (response.status < 200 || response.status >= 400) {
     throw new Error("Failed to fetch data");
